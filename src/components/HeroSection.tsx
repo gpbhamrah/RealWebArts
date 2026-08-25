@@ -48,9 +48,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onOpenEsti
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
             </span>
-            <span>RealWebArts Redesign 2.0</span>
+            <span>RealWebArts</span>
             <span className="text-slate-600">•</span>
-            <span className="text-slate-300">Award-Winning Web Craft & WordPress</span>
+            <span className="text-slate-300">WordPress & Web Development Experts</span>
           </div>
         </div>
 
@@ -63,7 +63,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onOpenEsti
             </span>
           </h1>
           <p className="mt-6 text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto font-normal">
-            Bespoke web design, custom WordPress architectures, and high-conversion UI/UX engineered to load in under <strong className="text-cyan-300 font-semibold">0.5 seconds</strong> and maximize your digital ROI.
+            Bespoke website design, custom WordPress architectures, and high-conversion front-ends engineered for blazing speed, search visibility, and maximum digital ROI.
           </p>
         </div>
 
@@ -89,15 +89,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onOpenEsti
           </button>
         </div>
 
-        {/* Proof Pill Highlights */}
+        {/* Capability Pillar Highlights */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto mb-14">
           <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-md flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 flex-shrink-0">
               <Zap className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-base sm:text-lg font-bold text-white font-heading">0.4s Median</div>
-              <div className="text-xs text-slate-400">Page Load Time</div>
+              <div className="text-sm sm:text-base font-bold text-white font-heading">Sub-Second Speed</div>
+              <div className="text-xs text-slate-400">Core Web Vitals Focus</div>
             </div>
           </div>
 
@@ -106,8 +106,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onOpenEsti
               <TrendingUp className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-base sm:text-lg font-bold text-white font-heading">450+ Sites</div>
-              <div className="text-xs text-slate-400">Launched Worldwide</div>
+              <div className="text-sm sm:text-base font-bold text-white font-heading">Custom WordPress</div>
+              <div className="text-xs text-slate-400">Zero Page-Builder Bloat</div>
             </div>
           </div>
 
@@ -116,8 +116,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onOpenEsti
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-base sm:text-lg font-bold text-white font-heading">99+ Lighthouse</div>
-              <div className="text-xs text-slate-400">Core Web Vitals</div>
+              <div className="text-sm sm:text-base font-bold text-white font-heading">Conversion UI/UX</div>
+              <div className="text-xs text-slate-400">Designed for Lead Capture</div>
             </div>
           </div>
 
@@ -126,8 +126,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, onOpenEsti
               <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
             </div>
             <div>
-              <div className="text-base sm:text-lg font-bold text-white font-heading">4.9 / 5.0</div>
-              <div className="text-xs text-slate-400">Client Satisfaction</div>
+              <div className="text-sm sm:text-base font-bold text-white font-heading">Clean Hand-Crafted</div>
+              <div className="text-xs text-slate-400">Semantic & Accessible</div>
             </div>
           </div>
         </div>

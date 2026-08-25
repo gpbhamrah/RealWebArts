@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { COMPANY_INFO, SERVICES_DATA } from '../data/siteData';
 import { X, ShieldCheck, FileText, Globe, CheckCircle2 } from 'lucide-react';
 
@@ -8,6 +8,22 @@ interface SeoLegalModalProps {
 }
 
 export const SeoLegalModal: React.FC<SeoLegalModalProps> = ({ type, onClose }) => {
+  useEffect(() => {
+    if (!type) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [type, onClose]);
+
   if (!type) return null;
 
   const titles = {
@@ -17,7 +33,13 @@ export const SeoLegalModal: React.FC<SeoLegalModalProps> = ({ type, onClose }) =
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="seo-legal-title"
+    >
       <div 
         className="relative w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl p-6 sm:p-8 space-y-6"
         onClick={(e) => e.stopPropagation()}
@@ -31,7 +53,7 @@ export const SeoLegalModal: React.FC<SeoLegalModalProps> = ({ type, onClose }) =
               {type === 'sitemap' && <Globe className="w-5 h-5" />}
             </div>
             <div>
-              <h3 className="text-xl font-bold text-white font-heading">
+              <h3 id="seo-legal-title" className="text-xl font-bold text-white font-heading">
                 {titles[type]}
               </h3>
               <span className="text-xs text-slate-400 font-mono">
@@ -42,7 +64,7 @@ export const SeoLegalModal: React.FC<SeoLegalModalProps> = ({ type, onClose }) =
 
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
+            className="w-9 h-9 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />

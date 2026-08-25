@@ -2,20 +2,20 @@ import { ServiceItem, ProjectCaseStudy, ReviewItem, ProcessStep, FaqItem } from 
 
 export const COMPANY_INFO = {
   name: 'RealWebArts',
-  legalName: 'RealWebArts Digital Media & Web Engineering',
-  tagline: 'High-Performance Web Design & Bespoke Digital Craftsmanship',
-  description: 'We engineer award-winning, conversion-optimized websites and custom WordPress solutions that elevate brands, load in milliseconds, and drive measurable revenue growth.',
+  legalName: 'RealWebArts Web Design & Development',
+  tagline: 'WordPress & Web Development Experts',
+  description: 'We design and build modern, fast-loading, conversion-focused websites and custom WordPress solutions tailored to your business goals.',
   email: 'info@realwebarts.com',
   phone: '+91 94658 94687',
   formattedPhone: '+91 94658 94687',
-  address: 'Suite 402, Cyber Tower Complex, Ferozepur Road, Ludhiana, Punjab, India 141001',
+  address: 'Ferozepur Road, Ludhiana, Punjab, India',
   locationShort: 'Ludhiana, Punjab • Global Delivery',
   experienceYears: '8+',
   stats: {
-    projectsDelivered: 450,
-    clientSatisfaction: 99.4,
-    avgLighthouseScore: 98,
-    globalClients: 28,
+    specialization: 'Custom WordPress & Modern Front-End',
+    focus: 'Speed & Conversion Rate Optimization',
+    architecture: 'Clean Code & Zero Bloat',
+    delivery: 'Global Client Delivery',
   },
   socials: {
     twitter: 'https://twitter.com/realwebarts',

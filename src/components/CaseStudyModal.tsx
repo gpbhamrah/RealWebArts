@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ProjectCaseStudy } from '../types';
 import { X, CheckCircle2, ArrowRight, Zap, Shield, Sparkles, ExternalLink } from 'lucide-react';
 
@@ -9,10 +9,32 @@ interface CaseStudyModalProps {
 }
 
 export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose, onStartProject }) => {
+  useEffect(() => {
+    if (!project) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [project, onClose]);
+
   if (!project) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="case-study-title"
+    >
       {/* Modal Card */}
       <div 
         className="relative w-full max-w-4xl rounded-3xl bg-slate-900 border border-slate-700/80 shadow-2xl shadow-cyan-950/50 overflow-hidden my-8"
@@ -22,7 +44,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
         <button
           onClick={onClose}
           id="close-case-study-modal"
-          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-slate-950/80 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 flex items-center justify-center transition-colors"
+          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-slate-950/80 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500"
           aria-label="Close modal"
         >
           <X className="w-5 h-5" />
@@ -48,7 +70,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                   Delivered in {project.year}
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-white font-heading">
+              <h2 id="case-study-title" className="text-2xl sm:text-4xl font-extrabold text-white font-heading">
                 {project.title}
               </h2>
               <p className="text-sm font-semibold text-slate-300">

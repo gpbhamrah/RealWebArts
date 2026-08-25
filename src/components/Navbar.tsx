@@ -30,7 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,24 +44,24 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems: { id: NavigationPage; label: string; badge?: string }[] = [
-    { id: 'home', label: 'Home' },
-    { id: 'services', label: 'Services' },
-    { id: 'portfolio', label: 'Work', badge: 'New' },
-    { id: 'process', label: 'Process' },
-    { id: 'estimator', label: 'Cost Estimator', badge: 'ROI' },
-    { id: 'reviews', label: 'Reviews' },
-    { id: 'about', label: 'About' },
-    { id: 'faq', label: 'FAQ' },
-    { id: 'contact', label: 'Contact' },
-  ];
-
   const handleNavClick = (page: NavigationPage) => {
     setActivePage(page);
     setMobileMenuOpen(false);
-    setServicesDropdownOpen(false);
+    setAboutDropdownOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const mobileNavItems: { id: NavigationPage; label: string; badge?: string }[] = [
+    { id: 'home', label: 'Home' },
+    { id: 'services', label: 'Services' },
+    { id: 'portfolio', label: 'Work' },
+    { id: 'process', label: 'Process' },
+    { id: 'about', label: 'About RealWebArts' },
+    { id: 'reviews', label: 'Client Reviews', badge: '5.0★' },
+    { id: 'estimator', label: 'Cost Estimator' },
+    { id: 'faq', label: 'FAQ' },
+    { id: 'contact', label: 'Contact Us' },
+  ];
 
   return (
     <header 
@@ -85,28 +85,133 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-slate-800/80 backdrop-blur-md">
-          {navItems.map((item) => {
-            const isActive = activePage === item.id;
-            return (
-              <button
-                key={item.id}
-                id={`nav-link-${item.id}`}
-                onClick={() => handleNavClick(item.id)}
-                className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 flex items-center gap-1.5 ${
-                  isActive 
-                    ? 'text-white bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 border border-cyan-500/30 shadow-sm' 
-                    : 'text-slate-300 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <span>{item.label}</span>
-                {item.badge && (
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                    {item.badge}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+          <button
+            id="nav-link-home"
+            onClick={() => handleNavClick('home')}
+            className={`px-3.5 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+              activePage === 'home' 
+                ? 'text-white bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 border border-cyan-500/30 shadow-sm' 
+                : 'text-slate-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            Home
+          </button>
+
+          <button
+            id="nav-link-services"
+            onClick={() => handleNavClick('services')}
+            className={`px-3.5 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+              activePage === 'services' 
+                ? 'text-white bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 border border-cyan-500/30 shadow-sm' 
+                : 'text-slate-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            Services
+          </button>
+
+          <button
+            id="nav-link-portfolio"
+            onClick={() => handleNavClick('portfolio')}
+            className={`px-3.5 py-2 text-sm font-medium rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+              activePage === 'portfolio' 
+                ? 'text-white bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 border border-cyan-500/30 shadow-sm' 
+                : 'text-slate-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span>Work</span>
+          </button>
+
+          <button
+            id="nav-link-process"
+            onClick={() => handleNavClick('process')}
+            className={`px-3.5 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+              activePage === 'process' 
+                ? 'text-white bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 border border-cyan-500/30 shadow-sm' 
+                : 'text-slate-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            Process
+          </button>
+
+          {/* About dropdown with Reviews */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setAboutDropdownOpen(true)}
+            onMouseLeave={() => setAboutDropdownOpen(false)}
+          >
+            <button
+              id="nav-link-about-dropdown"
+              onClick={() => handleNavClick('about')}
+              className={`px-3.5 py-2 text-sm font-medium rounded-full transition-all duration-200 flex items-center gap-1 ${
+                activePage === 'about' || activePage === 'reviews'
+                  ? 'text-white bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 border border-cyan-500/30 shadow-sm' 
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <span>About</span>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${aboutDropdownOpen ? 'rotate-180 text-cyan-400' : 'text-slate-400'}`} />
+            </button>
+
+            {aboutDropdownOpen && (
+              <div className="absolute top-full left-0 mt-1 w-48 rounded-2xl bg-slate-900/95 border border-slate-800 p-2 shadow-2xl backdrop-blur-xl z-50 animate-in fade-in zoom-in-95 duration-150">
+                <button
+                  id="nav-dropdown-about"
+                  onClick={() => handleNavClick('about')}
+                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition-colors ${
+                    activePage === 'about' ? 'bg-cyan-500/20 text-cyan-300' : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                  }`}
+                >
+                  <span>About RealWebArts</span>
+                </button>
+                <button
+                  id="nav-dropdown-reviews"
+                  onClick={() => handleNavClick('reviews')}
+                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-between transition-colors ${
+                    activePage === 'reviews' ? 'bg-cyan-500/20 text-cyan-300' : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                  }`}
+                >
+                  <span>Client Reviews</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">5.0★</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          <button
+            id="nav-link-estimator"
+            onClick={() => handleNavClick('estimator')}
+            className={`px-3.5 py-2 text-sm font-medium rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+              activePage === 'estimator' 
+                ? 'text-white bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 border border-cyan-500/30 shadow-sm' 
+                : 'text-slate-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span>Cost Estimator</span>
+          </button>
+
+          <button
+            id="nav-link-faq"
+            onClick={() => handleNavClick('faq')}
+            className={`px-3.5 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+              activePage === 'faq' 
+                ? 'text-white bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 border border-cyan-500/30 shadow-sm' 
+                : 'text-slate-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            FAQ
+          </button>
+
+          <button
+            id="nav-link-contact"
+            onClick={() => handleNavClick('contact')}
+            className={`px-3.5 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+              activePage === 'contact' 
+                ? 'text-white bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 border border-cyan-500/30 shadow-sm' 
+                : 'text-slate-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            Contact
+          </button>
         </nav>
 
         {/* Right CTA / Direct Contact */}
@@ -150,7 +255,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-x-0 top-[70px] bg-[#090D16]/98 backdrop-blur-2xl border-b border-slate-800 p-6 shadow-2xl animate-in slide-in-from-top-4 duration-200 z-50">
           <div className="flex flex-col gap-2">
-            {navItems.map((item) => (
+            {mobileNavItems.map((item) => (
               <button
                 key={item.id}
                 id={`mobile-nav-${item.id}`}

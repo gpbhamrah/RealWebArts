@@ -85,20 +85,20 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onStartProject }) =>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
               <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-center">
-                <div className="text-2xl sm:text-3xl font-extrabold font-mono text-cyan-400">450+</div>
-                <div className="text-xs text-slate-400 mt-1">Sites Built</div>
+                <div className="text-xl sm:text-2xl font-extrabold font-heading text-cyan-400">Custom</div>
+                <div className="text-xs text-slate-400 mt-1">WordPress & Code</div>
               </div>
               <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-center">
-                <div className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-400">99.4%</div>
-                <div className="text-xs text-slate-400 mt-1">Satisfaction</div>
+                <div className="text-xl sm:text-2xl font-extrabold font-heading text-emerald-400">&lt; 1.0s</div>
+                <div className="text-xs text-slate-400 mt-1">Speed Focused</div>
               </div>
               <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-center">
-                <div className="text-2xl sm:text-3xl font-extrabold font-mono text-indigo-400">8+</div>
-                <div className="text-xs text-slate-400 mt-1">Years Active</div>
+                <div className="text-xl sm:text-2xl font-extrabold font-heading text-indigo-400">100%</div>
+                <div className="text-xs text-slate-400 mt-1">Responsive Design</div>
               </div>
               <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-center">
-                <div className="text-2xl sm:text-3xl font-extrabold font-mono text-amber-400">28+</div>
-                <div className="text-xs text-slate-400 mt-1">Countries</div>
+                <div className="text-xl sm:text-2xl font-extrabold font-heading text-amber-400">Direct</div>
+                <div className="text-xs text-slate-400 mt-1">Developer Access</div>
               </div>
             </div>
           </div>

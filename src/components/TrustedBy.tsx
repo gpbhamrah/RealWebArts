@@ -3,12 +3,12 @@ import { Award, CheckCircle, Shield, Star, Zap, Globe, Sparkles } from 'lucide-r
 
 export const TrustedBy: React.FC = () => {
   const badges = [
-    { title: 'Awwwards Nominee', subtitle: 'Digital Craft & UX', icon: Award },
-    { title: 'Google Partner', subtitle: 'Core Web Vitals & SEO', icon: Zap },
-    { title: 'Clutch 4.9/5', subtitle: 'Top Web Agency', icon: Star },
-    { title: 'WordPress Certified', subtitle: 'ACF & Custom Core', icon: CheckCircle },
-    { title: 'WooCommerce Expert', subtitle: 'High-Volume Funnels', icon: Shield },
-    { title: 'Cloudflare Edge', subtitle: 'Enterprise Security', icon: Globe },
+    { title: 'Modern Web Craft', subtitle: 'Digital Design & UI/UX', icon: Sparkles },
+    { title: 'Performance & SEO', subtitle: 'Core Web Vitals Focused', icon: Zap },
+    { title: 'WordPress Specialist', subtitle: 'Custom Themes & ACF', icon: CheckCircle },
+    { title: 'WooCommerce Stores', subtitle: 'E-Commerce & Funnels', icon: Shield },
+    { title: 'Fast & Secure', subtitle: 'Speed & Edge CDN', icon: Globe },
+    { title: 'Mobile-First Design', subtitle: 'Responsive On All Screens', icon: Award },
   ];
 
   return (
@@ -16,7 +16,7 @@ export const TrustedBy: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <p className="text-xs uppercase tracking-widest font-mono text-slate-400 font-semibold">
-            Trusted by fast-growing startups, global enterprises, and industry leaders
+            Dedicated Web Development, Custom WordPress Solutions & Modern Engineering
           </p>
         </div>
 
