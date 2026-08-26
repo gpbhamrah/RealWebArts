@@ -51,6 +51,17 @@ export const Navbar: React.FC<NavbarProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleStartProject = () => {
+    setMobileMenuOpen(false);
+    setAboutDropdownOpen(false);
+    if (onOpenContact) {
+      onOpenContact();
+    } else {
+      setActivePage('contact');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const mobileNavItems: { id: NavigationPage; label: string; badge?: string }[] = [
     { id: 'home', label: 'Home' },
     { id: 'services', label: 'Services' },
@@ -215,7 +226,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Right CTA / Direct Contact */}
-        <div className="hidden sm:flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* Direct Phone Call Link */}
           <a
             href={`tel:${COMPANY_INFO.phone}`}
@@ -228,27 +239,37 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span>{COMPANY_INFO.formattedPhone}</span>
           </a>
 
-          {/* Instant Project Inquiry CTA Button */}
+          {/* Instant Project Inquiry CTA Button (Desktop & Tablet) */}
           <button
-            onClick={() => handleNavClick('contact')}
+            onClick={handleStartProject}
             id="nav-get-quote-btn"
-            className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-indigo-600 text-white text-sm font-semibold shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/35 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-indigo-600 text-white text-sm font-semibold shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/35 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
           >
             <Sparkles className="w-4 h-4 text-cyan-200 group-hover:rotate-12 transition-transform" />
             <span>Start Project</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </button>
-        </div>
 
-        {/* Mobile Hamburger Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          id="mobile-menu-toggle"
-          className="lg:hidden p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
-          aria-label="Toggle navigation menu"
-        >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+          {/* Quick Start Project (Mobile view) */}
+          <button
+            onClick={handleStartProject}
+            id="nav-mobile-start-project-btn"
+            className="sm:hidden inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-indigo-600 text-white text-xs font-semibold shadow-md shadow-cyan-500/25 active:scale-95 transition-transform"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Start Project</span>
+          </button>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            id="mobile-menu-toggle"
+            className="lg:hidden p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Slide-Out Drawer */}
@@ -285,11 +306,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               </a>
 
               <button
-                onClick={() => handleNavClick('contact')}
+                onClick={handleStartProject}
+                id="mobile-drawer-start-project-btn"
                 className="w-full flex items-center justify-center gap-2 p-3 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-semibold text-sm shadow-lg shadow-cyan-500/25"
               >
                 <Sparkles className="w-4 h-4" />
-                <span>Start Your Project Brief</span>
+                <span>Start Project</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
