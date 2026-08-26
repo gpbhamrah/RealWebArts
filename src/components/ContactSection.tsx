@@ -40,6 +40,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     message: initialMessage,
   });
 
+  const [botcheck, setBotcheck] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -60,7 +61,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     'Exploring Options',
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
 
@@ -70,34 +71,92 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     }
 
     // Basic email validation
-    if (!formData.email.includes('@') || !formData.email.includes('.')) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email.trim())) {
       setErrorMsg('Please provide a valid email address.');
+      return;
+    }
+
+    if (!formData.message.trim()) {
+      setErrorMsg('Please tell us briefly about your project goals or requirements.');
+      return;
+    }
+
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '24728188-6cb1-4132-adc6-087de36f32cc';
+
+    if (!accessKey) {
+      console.error(
+        '[RealWebArts Error] Web3Forms Access Key is missing. ' +
+        'Please provide VITE_WEB3FORMS_ACCESS_KEY in your environment.'
+      );
+      setErrorMsg(
+        'Form submission is temporarily unavailable. Please contact us directly at info@realwebarts.com or WhatsApp +91 94658 94687.'
+      );
       return;
     }
 
     setIsSubmitting(true);
 
-    // Simulate reliable submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      
-      // Trigger festive celebration confetti
-      try {
-        confetti({
-          particleCount: 120,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#06B6D4', '#38BDF8', '#818CF8', '#A855F7', '#10B981'],
-        });
-      } catch (err) {
-        // Fallback gracefully if canvas-confetti is in iframe
+    try {
+      const payload = {
+        access_key: accessKey,
+        subject: `New Website Inquiry from ${formData.name.trim()} - RealWebArts`,
+        from_name: 'RealWebArts Website Inquiry',
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim() || 'Not specified',
+        company: formData.company.trim() || 'Not specified',
+        service: formData.service,
+        budget: formData.budget,
+        timeline: formData.timeline,
+        message: formData.message.trim(),
+        botcheck: botcheck ? 'true' : undefined,
+      };
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setIsSubmitted(true);
+        
+        // Trigger celebration confetti
+        try {
+          confetti({
+            particleCount: 120,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#06B6D4', '#38BDF8', '#818CF8', '#A855F7', '#10B981'],
+          });
+        } catch (err) {
+          // Gracefully fallback if canvas is restricted
+        }
+      } else {
+        console.error('[Web3Forms Submission Error]', result);
+        setErrorMsg(
+          result.message || 'Something went wrong submitting your inquiry. Please try again or email us directly at info@realwebarts.com.'
+        );
       }
-    }, 900);
+    } catch (err: any) {
+      console.error('[Network Error Submitting Web3Forms]', err);
+      setErrorMsg(
+        'Unable to connect to the server. Please check your internet connection or email info@realwebarts.com directly.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setIsSubmitted(false);
+    setErrorMsg('');
     setFormData({
       name: '',
       email: '',
@@ -201,7 +260,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>95+ Google PageSpeed Guarantee</span>
+                  <span>Core Web Vitals & Speed Optimization</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
@@ -265,11 +324,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 {/* Name and Email */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
+                    <label htmlFor="contact-name" className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
                       Your Full Name *
                     </label>
                     <input
                       type="text"
+                      id="contact-name"
+                      name="name"
                       required
                       placeholder="e.g. Alexander Wright"
                       value={formData.name}
@@ -279,11 +340,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
+                    <label htmlFor="contact-email" className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
                       Work Email *
                     </label>
                     <input
                       type="email"
+                      id="contact-email"
+                      name="email"
                       required
                       placeholder="e.g. alex@company.com"
                       value={formData.email}
@@ -296,11 +359,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 {/* Phone and Company */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
+                    <label htmlFor="contact-phone" className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
                       Phone / WhatsApp (Optional)
                     </label>
                     <input
                       type="tel"
+                      id="contact-phone"
+                      name="phone"
                       placeholder="e.g. +1 (555) 019-2834"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -309,11 +374,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
+                    <label htmlFor="contact-company" className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
                       Company / Organization
                     </label>
                     <input
                       type="text"
+                      id="contact-company"
+                      name="company"
                       placeholder="e.g. Acme Innovations"
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
@@ -324,10 +391,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                 {/* Service Selector */}
                 <div>
-                  <label className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
+                  <label htmlFor="contact-service" className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
                     Required Service
                   </label>
                   <select
+                    id="contact-service"
+                    name="service"
                     value={formData.service}
                     onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-cyan-500 transition-colors"
@@ -344,10 +413,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 {/* Budget & Timeline */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
+                    <label htmlFor="contact-budget" className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
                       Target Budget (USD)
                     </label>
                     <select
+                      id="contact-budget"
+                      name="budget"
                       value={formData.budget}
                       onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-cyan-500 transition-colors"
@@ -359,10 +430,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
+                    <label htmlFor="contact-timeline" className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
                       Target Timeline
                     </label>
                     <select
+                      id="contact-timeline"
+                      name="timeline"
                       value={formData.timeline}
                       onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:outline-none focus:border-cyan-500 transition-colors"
@@ -376,17 +449,32 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                 {/* Project Details Textarea */}
                 <div>
-                  <label className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
-                    Project Details & Goals
+                  <label htmlFor="contact-message" className="block text-xs font-mono text-slate-300 font-semibold mb-1.5">
+                    Project Details & Goals *
                   </label>
                   <textarea
+                    id="contact-message"
+                    name="message"
                     rows={4}
+                    required
                     placeholder="Tell us about your project vision, target audience, existing website URL, and key business goals..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-cyan-500 transition-colors resize-none"
                   />
                 </div>
+
+                {/* Honeypot Spam Protection (Invisible to humans, caught by bots) */}
+                <input
+                  type="checkbox"
+                  name="botcheck"
+                  id="botcheck"
+                  className="hidden"
+                  style={{ display: 'none' }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  onChange={(e) => setBotcheck(e.target.checked)}
+                />
 
                 {/* Submit Button */}
                 <button
