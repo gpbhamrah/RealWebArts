@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { TrustedBy } from './components/TrustedBy';
@@ -91,90 +92,104 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-grow">
-        {/* Full Home Experience or Individual Focused Page Views */}
-        {activePage === 'home' && (
-          <>
-            <HeroSection
-              onNavigate={handleNavigate}
-              onOpenEstimator={() => handleNavigate('estimator')}
-            />
-            <TrustedBy />
-            <ServicesSection onSelectService={handleSelectService} />
-            <PerformanceBenchmark />
-            <PortfolioSection onSelectCaseStudy={setSelectedCaseStudy} />
-            <ProcessSection onStartProject={() => handleNavigate('contact')} />
-            <CostCalculator onProceedToContact={handleProceedFromEstimator} />
-            <TestimonialsSection />
-            <AboutSection onStartProject={() => handleNavigate('contact')} />
-            <FaqSection onAskQuestion={() => handleNavigate('contact')} />
-            <ContactSection
-              initialService={contactPrefill.service}
-              initialBudget={contactPrefill.budget}
-              initialTimeline={contactPrefill.timeline}
-              initialMessage={contactPrefill.message}
-            />
-          </>
-        )}
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={activePage}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{
+              duration: 0.45,
+              ease: [0.25, 1, 0.5, 1],
+            }}
+            className="w-full"
+          >
+            {/* Full Home Experience or Individual Focused Page Views */}
+            {activePage === 'home' && (
+              <>
+                <HeroSection
+                  onNavigate={handleNavigate}
+                  onOpenEstimator={() => handleNavigate('estimator')}
+                />
+                <TrustedBy />
+                <ServicesSection onSelectService={handleSelectService} />
+                <PerformanceBenchmark />
+                <PortfolioSection onSelectCaseStudy={setSelectedCaseStudy} />
+                <ProcessSection onStartProject={() => handleNavigate('contact')} />
+                <CostCalculator onProceedToContact={handleProceedFromEstimator} />
+                <TestimonialsSection />
+                <AboutSection onStartProject={() => handleNavigate('contact')} />
+                <FaqSection onAskQuestion={() => handleNavigate('contact')} />
+                <ContactSection
+                  initialService={contactPrefill.service}
+                  initialBudget={contactPrefill.budget}
+                  initialTimeline={contactPrefill.timeline}
+                  initialMessage={contactPrefill.message}
+                />
+              </>
+            )}
 
-        {activePage === 'services' && (
-          <div className="pt-24">
-            <ServicesSection onSelectService={handleSelectService} />
-            <PerformanceBenchmark />
-            <CostCalculator onProceedToContact={handleProceedFromEstimator} />
-          </div>
-        )}
+            {activePage === 'services' && (
+              <div className="pt-24">
+                <ServicesSection onSelectService={handleSelectService} />
+                <PerformanceBenchmark />
+                <CostCalculator onProceedToContact={handleProceedFromEstimator} />
+              </div>
+            )}
 
-        {activePage === 'portfolio' && (
-          <div className="pt-24">
-            <PortfolioSection onSelectCaseStudy={setSelectedCaseStudy} />
-            <TestimonialsSection />
-          </div>
-        )}
+            {activePage === 'portfolio' && (
+              <div className="pt-24">
+                <PortfolioSection onSelectCaseStudy={setSelectedCaseStudy} />
+                <TestimonialsSection />
+              </div>
+            )}
 
-        {activePage === 'process' && (
-          <div className="pt-24">
-            <ProcessSection onStartProject={() => handleNavigate('contact')} />
-            <PerformanceBenchmark />
-          </div>
-        )}
+            {activePage === 'process' && (
+              <div className="pt-24">
+                <ProcessSection onStartProject={() => handleNavigate('contact')} />
+                <PerformanceBenchmark />
+              </div>
+            )}
 
-        {activePage === 'estimator' && (
-          <div className="pt-24">
-            <CostCalculator onProceedToContact={handleProceedFromEstimator} />
-            <FaqSection onAskQuestion={() => handleNavigate('contact')} />
-          </div>
-        )}
+            {activePage === 'estimator' && (
+              <div className="pt-24">
+                <CostCalculator onProceedToContact={handleProceedFromEstimator} />
+                <FaqSection onAskQuestion={() => handleNavigate('contact')} />
+              </div>
+            )}
 
-        {activePage === 'reviews' && (
-          <div className="pt-24">
-            <TestimonialsSection />
-            <TrustedBy />
-          </div>
-        )}
+            {activePage === 'reviews' && (
+              <div className="pt-24">
+                <TestimonialsSection />
+                <TrustedBy />
+              </div>
+            )}
 
-        {activePage === 'about' && (
-          <div className="pt-24">
-            <AboutSection onStartProject={() => handleNavigate('contact')} />
-            <TrustedBy />
-          </div>
-        )}
+            {activePage === 'about' && (
+              <div className="pt-24">
+                <AboutSection onStartProject={() => handleNavigate('contact')} />
+                <TrustedBy />
+              </div>
+            )}
 
-        {activePage === 'faq' && (
-          <div className="pt-24">
-            <FaqSection onAskQuestion={() => handleNavigate('contact')} />
-          </div>
-        )}
+            {activePage === 'faq' && (
+              <div className="pt-24">
+                <FaqSection onAskQuestion={() => handleNavigate('contact')} />
+              </div>
+            )}
 
-        {activePage === 'contact' && (
-          <div className="pt-24">
-            <ContactSection
-              initialService={contactPrefill.service}
-              initialBudget={contactPrefill.budget}
-              initialTimeline={contactPrefill.timeline}
-              initialMessage={contactPrefill.message}
-            />
-          </div>
-        )}
+            {activePage === 'contact' && (
+              <div className="pt-24">
+                <ContactSection
+                  initialService={contactPrefill.service}
+                  initialBudget={contactPrefill.budget}
+                  initialTimeline={contactPrefill.timeline}
+                  initialMessage={contactPrefill.message}
+                />
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       {/* Footer */}
